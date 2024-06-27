@@ -1,11 +1,12 @@
 'use client'
 import React, { useState } from 'react'
-import './App.css'
-import { db } from './components/firestore'
+import './Form.css'
+import { db } from './firestore'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
+import { Link } from 'react-router-dom'
 
 
-export default function App() {
+export default function Form() {
 
     const [Register, setlogin] = useState(true)
     return <>
@@ -66,8 +67,9 @@ export default function App() {
                     if (querySnapshot.docs[i].data().email === obj.email) {
                         valid = false
                         localStorage.setItem('status', JSON.stringify(querySnapshot.docs[i].data()))
-                        alert('welcome to home page')
-
+                        // alert('welcome to home page')
+                        localStorage.setItem('user', JSON.stringify(obj.email))
+                        window.location.replace('home')
                         break
                     }
                 }
@@ -104,7 +106,10 @@ export default function App() {
                 {Register ? '' :
                     <p >
                         Already have account?
-                        <a href='' className='signin'>Signin</a>
+                        <Link href='' className='signin' onClick={(e) => {
+                            e.preventDefault()
+                            setlogin(true)
+                        }}>Signin</Link>
                     </p>}
 
 
